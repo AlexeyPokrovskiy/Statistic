@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Campaing;
+use App\Models\PromoStatistic;
+use App\Models\Parsers\NavitrinuCom;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        $test = new NavitrinuCom();
+        $test->loginInSite();
+        dd($test);
         return view('home');
+
     }
 }
