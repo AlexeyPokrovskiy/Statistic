@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CampaingParseJob;
+use App\Jobs\CampaingParseStatJob;
+use App\Jobs\StatPromoJob;
+use App\Jobs\StatSiteJob;
 use Illuminate\Http\Request;
 use App\Models\Campaing;
 use App\Models\PromoStatistic;
@@ -28,19 +32,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        $test = new NavitrinuCom();
-        $test->loginInSite();
-//        $data = $test->getCompaings();
-//        Campaing::createFromParser($data);
-        $data = $test->getPromoStat(1118);
-        $promo = new SiteStatistic();
-
-        $result = $promo->createFromParser($data,31);
-
-
-        dd($result);
         return view('home');
+    }
 
+
+    /**
+     *  Роут запуска приложения
+     */
+    public function run()
+    {
+        CampaingParseJob::dispatch();
+        CampaingParseStatJob::dispatch();
     }
 }

@@ -55,7 +55,7 @@ class NavitrinuCom
             '__RequestVerificationToken'=>$auth['token'],
 
         );
-        $data = $this->sendRequest($url,$post);
+        $this->sendRequest($url,$post);
 
     }
 
@@ -121,16 +121,14 @@ class NavitrinuCom
             "search[regex]"=>false,
             "id"=>$outer_id,
             "group"=>"Token2",
-            "range"=>"Last7Days",
+            "range"=>"Today",
             "from"=>"",
             "to"=>"",
             "accountId"=>0,
         );
 
         $data = json_decode($this->sendRequest($url,$post));
-
-        return $data->data[6];
-
+        return $data->data;
     }
 
     /**
@@ -187,8 +185,8 @@ class NavitrinuCom
             "accountId"=>0,
         );
 
-        $data = $this->sendRequest($url,$post);
-        return json_decode($data);
+        $data = json_decode($this->sendRequest($url,$post));
+        return $data->data;
     }
 
 }
