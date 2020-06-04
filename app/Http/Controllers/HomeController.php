@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Campaing;
 use App\Models\PromoStatistic;
+use App\Models\SiteStatistic;
 use App\Models\Parsers\NavitrinuCom;
+
 
 class HomeController extends Controller
 {
@@ -31,9 +33,13 @@ class HomeController extends Controller
         $test->loginInSite();
 //        $data = $test->getCompaings();
 //        Campaing::createFromParser($data);
+        $data = $test->getPromoStat(1118);
+        $promo = new SiteStatistic();
+
+        $result = $promo->createFromParser($data,31);
 
 
-        dd($test);
+        dd($result);
         return view('home');
 
     }

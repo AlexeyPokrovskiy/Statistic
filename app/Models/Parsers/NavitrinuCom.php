@@ -72,4 +72,123 @@ class NavitrinuCom
         return json_decode($data);
     }
 
+
+    /**
+     * Статистика promo _id по компании
+     *
+     * @param int $outer_id
+     * @return mixed
+     */
+    public function getPromoStat($outer_id){
+        $url = 'https://navitrinu.com/Statistics/StatisticsGridDataAsync';
+        $post = array(
+            "draw"=>2,
+            "columns[0][data]"=>"groupValue",
+            "columns[0][name]"=>"groupValue",
+            "columns[0][searchable]"=>false,
+            "columns[0][orderable]"=>true,
+            "columns[0][search][value]"=>"",
+            "columns[0][search][regex]"=>false,
+            "columns[1][data]"=>"groupTitle",
+            "columns[1][name]"=>"groupTitle",
+            "columns[1][searchable]"=>false,
+            "columns[1][orderable]"=>true,
+            "columns[1][search][value]",
+            "columns[1][search][regex]"=>false,
+            "columns[2][data]"=>"clicks",
+            "columns[2][name]"=>"clicks",
+            "columns[2][searchable]"=>false,
+            "columns[2][orderable]"=>true,
+            "columns[2][search][value]"=>"",
+            "columns[2][search][regex]"=>false,
+            "columns[3][data]"=>"partnerIncome",
+            "columns[3][name]"=>"partnerIncome",
+            "columns[3][searchable]"=>false,
+            "columns[3][orderable]"=>true,
+            "columns[3][search][value]",
+            "columns[3][search][regex]"=>false,
+            "columns[4][data]"=>"expectedPartnerIncome",
+            "columns[4][name]"=>"expectedPartnerIncome",
+            "columns[4][searchable]"=>false,
+            "columns[4][orderable]"=>true,
+            "columns[4][search][value]"=>"",
+            "columns[4][search][regex]"=>false,
+            "order[0][column]"=>1,
+            "order[0][dir]"=>"desc",
+            "start"=>0,
+            "length"=>-1,
+            "search[value]"=>"",
+            "search[regex]"=>false,
+            "id"=>$outer_id,
+            "group"=>"Token2",
+            "range"=>"Last7Days",
+            "from"=>"",
+            "to"=>"",
+            "accountId"=>0,
+        );
+
+        $data = json_decode($this->sendRequest($url,$post));
+
+        return $data->data[6];
+
+    }
+
+    /**
+     * Статистика site_id по компании
+     *
+     * @param int $outer_id
+     * @return mixed
+     */
+    public function getSiteStat($outer_id){
+        $url = 'https://navitrinu.com/Statistics/StatisticsGridDataAsync';
+        $post = array(
+            "draw"=>2,
+            "columns[0][data]"=>"groupValue",
+            "columns[0][name]"=>"groupValue",
+            "columns[0][searchable]"=>false,
+            "columns[0][orderable]"=>true,
+            "columns[0][search][value]"=>"",
+            "columns[0][search][regex]"=>false,
+            "columns[1][data]"=>"groupTitle",
+            "columns[1][name]"=>"groupTitle",
+            "columns[1][searchable]"=>false,
+            "columns[1][orderable]"=>true,
+            "columns[1][search][value]",
+            "columns[1][search][regex]"=>false,
+            "columns[2][data]"=>"clicks",
+            "columns[2][name]"=>"clicks",
+            "columns[2][searchable]"=>false,
+            "columns[2][orderable]"=>true,
+            "columns[2][search][value]"=>"",
+            "columns[2][search][regex]"=>false,
+            "columns[3][data]"=>"partnerIncome",
+            "columns[3][name]"=>"partnerIncome",
+            "columns[3][searchable]"=>false,
+            "columns[3][orderable]"=>true,
+            "columns[3][search][value]",
+            "columns[3][search][regex]"=>false,
+            "columns[4][data]"=>"expectedPartnerIncome",
+            "columns[4][name]"=>"expectedPartnerIncome",
+            "columns[4][searchable]"=>false,
+            "columns[4][orderable]"=>true,
+            "columns[4][search][value]"=>"",
+            "columns[4][search][regex]"=>false,
+            "order[0][column]"=>1,
+            "order[0][dir]"=>"desc",
+            "start"=>0,
+            "length"=>-1,
+            "search[value]"=>"",
+            "search[regex]"=>false,
+            "id"=>$outer_id,
+            "group"=>"Token1",
+            "range"=>"Today",
+            "from"=>"",
+            "to"=>"",
+            "accountId"=>0,
+        );
+
+        $data = $this->sendRequest($url,$post);
+        return json_decode($data);
+    }
+
 }
