@@ -38,7 +38,9 @@ class NavitrinuCom
 
         //получаем  RequestVerificationToken
         $data = $this->sendRequest($url);
+
         $data = HtmlDomParser::str_get_html($data);
+
         $auth = array(
             'token'=>$data->find('input[name="__RequestVerificationToken"]',0)->value,
         );
@@ -55,8 +57,19 @@ class NavitrinuCom
         );
         $data = $this->sendRequest($url,$post);
 
-
-        dd($data);
-
     }
+
+    public function getCompaings(){
+        $url = 'https://navitrinu.com/campaigns/griddata';
+
+        $post = array(
+            'range' => "Today"
+        );
+
+        //поучаем Json кампаний
+        $data = $this->sendRequest($url,$post);
+
+        return json_decode($data);
+    }
+
 }

@@ -29,6 +29,10 @@ class HomeController extends Controller
 
         $test = new NavitrinuCom();
         $test->loginInSite();
+//        $data = $test->getCompaings();
+//        Campaing::createFromParser($data);
+
+
         dd($test);
         return view('home');
 
