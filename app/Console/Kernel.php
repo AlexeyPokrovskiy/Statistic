@@ -45,7 +45,7 @@ class Kernel extends ConsoleKernel
             $parser->loginInSite();
             $data = $parser->getCompaings();
             Campaing::createFromParser($data);
-        })->everyMinute();
+        })->hourly();
 
     }
 
