@@ -2,6 +2,11 @@
 
 namespace App\Console;
 
+
+use App\Models\Campaing;
+use App\Models\Parsers\NavitrinuCom;
+use App\Models\PromoStatistic;
+use App\Models\SiteStatistic;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +29,51 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $this->campaingParse($schedule);
+        $this->importStat($schedule);
+    }
+
+
+    /**
+     * Парсинг новый компаний если они есть
+     *
+     * @param Schedule $schedule
+     */
+    protected function campaingParse(Schedule $schedule){
+        $schedule->call(function () {
+            $parser = new NavitrinuCom();
+            $parser->loginInSite();
+            $data = $parser->getCompaings();
+            Campaing::createFromParser($data);
+        })->hourly();
+
+    }
+
+    /**
+     * импортируем статистику
+     *
+     * @param Schedule $schedule
+     */
+    protected function importStat(Schedule $schedule){
+
+        $schedule->call(function () {
+            $campaings = Campaing::all();
+            $parser = new NavitrinuCom();
+            $parser->loginInSite();
+            foreach ($campaings as $item) {
+                $data_promo = $parser->getPromoStat($item->outer_id);
+                foreach ($data_promo as $promo) {
+                    $promoObj = new PromoStatistic();
+                    $promoObj->createFromParser($promo,$item->id);
+                }
+
+                $data_site = $parser->getSiteStat($item->outer_id);
+                foreach ($data_site as $site) {
+                    $siteObj = new SiteStatistic();
+                    $siteObj->createFromParser($site,$item->id);
+                }
+            }
+        })->everyTenMinutes();
     }
 
     /**
